@@ -13,7 +13,6 @@ readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Framework :: Pydantic :: 2",
     "Topic :: Software Development :: Code Generators",
@@ -25,7 +24,7 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://git.denvic.ru/ayupov/sqlmodel-autocrud"
+"Homepage" = "https://github.com/preposition17/pystructor"
 
 [project.optional-dependencies]
 test = [
