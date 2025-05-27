@@ -33,12 +33,15 @@ def partial(model_cls: Type[ModelT]):
         for name, (typ, finfo) in base_fields.items():
             # делаем каждое поле Optional
             typ = typ | None
-            finfo.default = None  # type: ignore
-            new_fields[name] = (typ, finfo)
+            finfo.default = None
+            base_fields[name] = (typ, finfo)  # type: ignore
 
         return create_model(
             new_cls.__name__,
-            **new_fields
+            **{
+                **base_fields,
+                **new_fields
+            }
         )
 
     return decorator
@@ -59,8 +62,10 @@ def omit(model_cls: Type[ModelT], *fields: str):
 
         return create_model(
             new_cls.__name__,
-            **base_fields,
-            **new_fields
+            **{
+                **base_fields,
+                **new_fields
+            }
         )
 
     return decorator
@@ -81,8 +86,10 @@ def pick(model_cls: Type[ModelT], *fields: str):
 
         return create_model(
             new_cls.__name__,
-            **base_fields,
-            **new_fields
+            **{
+                **base_fields,
+                **new_fields
+            }
         )
 
     return decorator
