@@ -56,7 +56,9 @@ def test_constraints(FooModel):
         FooModel,
     )
 
-    assert ReadSchema.model_fields["name"].max_length == 20
+    read_schema = ReadSchema.schema()
+
+    assert read_schema["properties"]["name"]["maxLength"] == 20
 
 
 def test_create_validation(FooModel):

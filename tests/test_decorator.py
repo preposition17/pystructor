@@ -1,6 +1,7 @@
 import pytest
 
 from pydantic import BaseModel, Field
+from pydantic.fields import PydanticUndefined
 from sqlmodel import SQLModel
 
 from pystructor import partial
@@ -57,3 +58,27 @@ def test_pick(FooModel):
     assert "password" not in PickFooModel.model_fields
     assert "name" in PickFooModel.model_fields
     assert "test_field" in PickFooModel.model_fields
+
+
+def test_omit_fields_override(FooModel):
+
+    @omit(FooModel, "id")
+    class OmitFooModel(BaseModel):
+        name: str = Field(..., max_length=10)
+
+    omit_foo_schema = OmitFooModel.schema()
+
+    assert "id" not in OmitFooModel.model_fields
+    assert omit_foo_schema["properties"]["name"]["maxLength"] == 10
+
+
+def test_partial_fields_override(FooModel):
+
+    @partial(FooModel)
+    class PartialFooModel(SQLModel):
+        name: str = Field(..., max_length=10)
+
+    partial_foo_schema = PartialFooModel.schema()
+
+    assert PartialFooModel.model_fields["name"].default is PydanticUndefined
+    assert partial_foo_schema["properties"]["name"]["maxLength"] == 10
