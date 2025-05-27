@@ -31,6 +31,10 @@ test = [
     "pytest>=7.0.0",
 ]
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pystructor*"]
+
 [tool.pytest]
 strict_markers = true
 python_files = "tests/test_*.py"
